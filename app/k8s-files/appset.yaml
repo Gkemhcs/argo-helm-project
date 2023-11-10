@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: us
+        url: https://us-central1-connectgateway.googleapis.com/v1beta1/projects/768923947441/locations/us-central1/gkeMemberships/
+      - cluster: asia
+        url: https://kubernetes.default.svc
+      
+  template:
+    metadata:
+      name: '{{cluster}}-guestbook'
+    spec:
+      project: my-project
+      source:
+        repoURL: https://github.com/Gkemhcs/argo-helm-project.git
+        targetRevision: main
+        path: app/k8s-files
+      destination:
+        server: '{{url}}'
+        namespace: guestbook
