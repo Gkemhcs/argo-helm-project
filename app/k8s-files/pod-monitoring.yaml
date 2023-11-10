@@ -1,0 +1,11 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: prom-app
+spec:
+  selector:
+    matchLabels:
+      pod: frontend
+  endpoints:
+  - port: web
+    interval: 5s
